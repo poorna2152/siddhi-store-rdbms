@@ -25,7 +25,7 @@
 
     <groupId>io.siddhi.extension.store.rdbms</groupId>
     <artifactId>siddhi-store-rdbms-parent</artifactId>
-    <version>7.0.17</version>
+    <version>7.0.17.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WSO2 Siddhi Store Extension - RDBMS Aggregator Pom</name>
     <url>http://wso2.org</url>
@@ -148,7 +148,7 @@
         <siddhi.map.xml.version>5.2.2</siddhi.map.xml.version>
 
         <siddhi.store.solr.version>2.0.0</siddhi.store.solr.version>
-    </properties>
+    <project.scm.id>wso2-scm-server</project.scm.id></properties>
 
     <scm>
         <connection>scm:git:https://github.com/wso2-support/siddhi-store-rdbms.git</connection>

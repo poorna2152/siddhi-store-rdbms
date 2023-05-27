@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
   ~ Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
   ~ WSO2 Inc. licenses this file to you under the Apache License,
@@ -15,14 +14,12 @@
   ~ KIND, either express or implied.  See the License for the
   ~ specific language governing permissions and limitations
   ~ under the License.
-  -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>io.siddhi.extension.store.rdbms</groupId>
         <artifactId>siddhi-store-rdbms-parent</artifactId>
-        <version>7.0.17</version>
+        <version>7.0.17.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -72,29 +69,29 @@
                                 </goals>
                                 <configuration>
                                     <target xmlns:jacoco="antlib:org.jacoco.ant">
-                                        <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-                                            <classpath path="${project.build.directory}" />
+                                        <taskdef resource="org/jacoco/ant/antlib.xml" uri="antlib:org.jacoco.ant">
+                                            <classpath path="${project.build.directory}"/>
                                         </taskdef>
                                         <jacoco:merge destfile="${project.build.directory}/merged.exec">
-                                            <fileset dir="${component.basedir}/target/coverage-reports" includes="*.exec" />
+                                            <fileset dir="${component.basedir}/target/coverage-reports" includes="*.exec"/>
 <!--                                            <fileset dir="${osgi.tests.basedir}/target/coverage-reports" includes="*.exec" />-->
                                         </jacoco:merge>
                                         <jacoco:report>
                                             <executiondata>
-                                                <file file="${project.build.directory}/merged.exec" />
+                                                <file file="${project.build.directory}/merged.exec"/>
                                             </executiondata>
                                             <structure name="Siddhi-store-mongodb Tests">
                                                 <classfiles>
                                                     <fileset dir="${component.basedir}/target/classes">
-                                                        <exclude name="**/*Constants.class" />
-                                                        <exclude name="**/*Exception.class" />
+                                                        <exclude name="**/*Constants.class"/>
+                                                        <exclude name="**/*Exception.class"/>
                                                     </fileset>
                                                 </classfiles>
                                                 <sourcefiles encoding="UTF-8">
-                                                    <fileset dir="${component.basedir}/src/main/java" />
+                                                    <fileset dir="${component.basedir}/src/main/java"/>
                                                 </sourcefiles>
                                             </structure>
-                                            <html destdir="${project.build.directory}/coverage-reports" />
+                                            <html destdir="${project.build.directory}/coverage-reports"/>
                                         </jacoco:report>
                                     </target>
                                 </configuration>
