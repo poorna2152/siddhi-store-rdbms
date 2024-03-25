@@ -136,6 +136,14 @@ import javax.sql.DataSource;
                                 "perform CUD operations.",
                         defaultValue = "false",
                         possibleParameters = {"true", "false"}
+                ),
+                @SystemParameter(
+                        name = "allow.null.params.with.CUD",
+                        description = "When set to 'true', this parameter allows the RDBMS CUD function to accept" +
+                                "parameters with NULL values. " +
+                                "When set to 'false', NULL parameters will not be allowed with CUD functions.",
+                        defaultValue = "false",
+                        possibleParameters = {"true", "false"}
                 )
         },
         returnAttributes = {
@@ -211,6 +219,7 @@ public class CUDStreamProcessor extends StreamProcessor<State> {
     private List<Attribute> attributeList = new ArrayList<>();
     private String transactionCorrelationId;
     private boolean enableCudOperationAutocommit = true;
+    private boolean allowNullValuedParams;
 
     @Override
     protected StateFactory<State> init(MetaStreamEvent metaStreamEvent, AbstractDefinition inputDefinition,
@@ -219,6 +228,8 @@ public class CUDStreamProcessor extends StreamProcessor<State> {
                                 boolean findToBeExecuted, SiddhiQueryContext siddhiQueryContext) {
         boolean performCUDOps = Boolean.parseBoolean(
                 configReader.readConfig("perform.CUD.operations", "false"));
+        allowNullValuedParams = Boolean.parseBoolean(
+                configReader.readConfig("allow.null.params.with.CUD", "false"));
         if (!performCUDOps) {
             throw new SiddhiAppValidationException("Performing CUD operations through " +
                     "rdbms cud function is disabled. This is configured through system parameter, " +
@@ -336,9 +347,14 @@ public class CUDStreamProcessor extends StreamProcessor<State> {
                     }
                     for (int i = 0; i < this.expressionExecutors.size(); i++) {
                         ExpressionExecutor attributeExpressionExecutor = this.expressionExecutors.get(i);
+                        Object value = attributeExpressionExecutor.execute(event);
+                        if (value == null && !allowNullValuedParams) {
+                            throw new SiddhiAppValidationException("Null values have been detected " +
+                                    "in the parameters passed to the CUD function. " +
+                                    "CUD functions do not permit null parameters.");
+                        }
                         RDBMSStreamProcessorUtil.populateStatementWithSingleElement(stmt, i + 1,
-                                attributeExpressionExecutor.getReturnType(),
-                                attributeExpressionExecutor.execute(event));
+                                attributeExpressionExecutor.getReturnType(), value);
                     }
                     stmt.addBatch();
                 }
