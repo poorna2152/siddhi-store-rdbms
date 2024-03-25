@@ -511,8 +511,6 @@ public class RDBMSCUDTestCase {
         }
     }
 
-
-
     @Test()
     public void rdbmsCUDNullParamTest2() throws InterruptedException {
         log.info("rdbmsCUDNullParamTest2 - Test allow.null.params.with.CUD property behavior. " +
